@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Generator</title>
+</head>
+<body>
+    <h1>Generate PDF from Text</h1>
+  
+    <textarea id="textInput" rows="15" cols="100"></textarea>
+    <br>
+    <button id="downloadBtn">Download as PDF</button>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+        document.getElementById("downloadBtn").addEventListener("click", function() {
+
+        // Create a new jsPDF instance
+        const {jsPDF} = window.jspdf;
+        var doc = new jsPDF();
+        var text = document.getElementById("textInput").value;
+        
+        // Set the font size and add the text to the PDF
+        doc.setFontSize(12);
+        // doc.text(text, 10, 10);
+        var pageWidth = doc.internal.pageSize.width;
+
+        // Split the text into multiple lines based on the width of the page
+        var textLines = doc.splitTextToSize(text, pageWidth - 20); // Subtracting 20 for margin
+
+        // Add the text lines to the PDF
+        doc.text(textLines, 10, 10);
+        
+        // Download the PDF file
+        doc.save("my_pdf.pdf");
+        });
+    </script>
+
+</body>
+</html>
